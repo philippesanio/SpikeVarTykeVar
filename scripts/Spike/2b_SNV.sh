@@ -9,8 +9,14 @@ MERGED_VCF=$3
 MOD_BAM=$4
 OUTPUT_VCF=$5
 REFERENCE=$6
-# activate conda env which uses python 3.6 called mosaicSim
-conda activate mosaicSim
-# call samtools mpileup to genotypes the variants
-#samtools mpileup $MOD_BAM | bcftools call -mv -Oz -o $OUTPUT_VCF
-bcftools  mpileup  -Ou -f $REFERENCE $MOD_BAM  |  bcftools call -mv -Oz -o $OUTPUT_VCF
+
+if [ "$READ_LENGTH" = "short" ]; then
+    # TODO for short reads
+    # ./2b_snv_short.sh $READ_LENGTH $VAF $MERGED_VCF $MOD_BAM $OUTPUT_VCF $REFERENCE
+    
+elif [ "$READ_LENGTH" = "long" ]; then
+    # TODO for long reads
+    ./2b_snv_long.sh $READ_LENGTH $VAF $MERGED_VCF $MOD_BAM $OUTPUT_VCF $REFERENCE
+else
+    echo "Error: Invalid read length input! Either short or long is allowed."
+fi
